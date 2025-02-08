@@ -18,7 +18,7 @@ async def get_all_cleanings() -> List[dict]:
 
 	return cleanings
 
-@router.post("/", response_model=CleaningPublic, name="cleanings:create-cleanings", status_code=HTTP_201_CREATED)
+@router.post("/", response_model=CleaningPublic, name="cleanings:create-cleaning", status_code=HTTP_201_CREATED)
 async def create_new_cleaning(
 	new_cleaning: CleaningCreate = Body(...,  embed=True),
 	cleanings_repo: CleaningsRepository = Depends(get_repository(CleaningsRepository))
