@@ -7,6 +7,12 @@ CREATE_CLEANING_QUERY = """
     RETURNING id, name, description, price, cleaning_type;
 """
 
+GET_CLEANING_BY_ID_QUERY = """
+    SELECT id, name, description, price, cleaning_type
+    FROM cleanings
+    WHERE id = :id;
+"""
+
 class CleaningsRepository(BaseRepository):
     """
     All database actions associated with the Cleaning resource
@@ -18,4 +24,11 @@ class CleaningsRepository(BaseRepository):
 
         return CleaningInDB(**cleaning)
     
-    
+    # The following function executes the SQL command defined in GET_CLEANING_BY_ID_QUERY
+    async def get_cleaning_by_id(self, *, id:int) -> CleaningInDB:
+        cleaning = await self.db.fetch_one(query=GET_CLEANING_BY_ID_QUERY, values={"id": id} )
+
+        if not cleaning:
+            return None
+        
+        return CleaningInDB(**cleaning)
